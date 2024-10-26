@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday!</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: url("cake2.jpg") no-repeat center center fixed; /* Cute cake doodle image */
+        background-size: cover;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        color: #333;
+        overflow: hidden;
+        padding: 10px;
+      }
+
+      .container {
+        text-align: center;
+        max-width: 95%;
+        max-height: 85vh;
+        overflow-y: auto;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        position: relative;
+        z-index: 1;
+        animation: fadeIn 1.5s ease-in-out;
+      }
+
+      .card h1 {
+        font-size: 2.5em;
+        color: #ff6b6b;
+        margin-bottom: 20px;
+        animation: popUp 1.2s ease forwards;
+      }
+
+      .button-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      button {
+        background-color: #ff6b6b;
+        color: white;
+        padding: 10px 20px;
+        font-size: 1em;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        animation: bounce 2s infinite;
+        margin-top: 10px;
+        width: 80%;
+        max-width: 250px;
+      }
+
+      button:hover {
+        background-color: #ff7f7f;
+      }
+
+      /* Modal styles */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 600px;
+        border-radius: 10px;
+        text-align: center;
+      }
+
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      /* Added style for hug gif container */
+      #hugsGifContainer {
+        display: none; /* Hide initially */
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin-top: 20px; /* Add margin for spacing */
+      }
+
+      /* Celebration text */
+      #celebrationText {
+        display: none;
+        font-size: 1.5em;
+        color: #ff6b6b;
+        margin-top: 20px;
+      }
+
+      .heart {
+        position: absolute;
+        font-size: 24px;
+        animation: fall linear forwards;
+      }
+
+      @keyframes fall {
+        0% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(100vh);
+          opacity: 0;
+        }
+      }
+
+      @keyframes popUp {
+        0% {
+          transform: scale(0.5);
+          opacity: 0;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-10px);
+        }
+        60% {
+          transform: translateY(-5px);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          max-height: 75vh;
+        }
+
+        .card h1 {
+          font-size: 2em;
+        }
+
+        button {
+          font-size: 0.9em;
+          padding: 8px 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <h1>Happy Birthday!</h1>
+        <button id="startingTextBtn" onclick="showStartingText()">
+          😺 My Words
+        </button>
+        <p id="defaultText" style="display: none">
+          Happy Birthday to my dear Sir G! You are the most amazing person I
+          have ever met; you are the extroverted version of me, haha. You
+          radiate positive energy, like a garden full of sunflowers under a
+          bright sun. You have changed my negative views into positive ones, for
+          which I am very grateful. You handle every situation with such
+          calmness and patience. May Allah fulfill your dreams. I know you have
+          been working hard lately, and I pray that all your desires come true.
+          Even if I am not present to witness your success in the future, my
+          prayers will always be with you. I want you to smile right now because
+          after the darkest clouds and rain, the sun still shines bright. May
+          your smile and happiness never fade away! <3
+        </p>
+        <div class="button-container">
+          <button id="celebrateBtn" onclick="celebrate()">Celebrate 🎉</button>
+          <button id="poetryBtn" onclick="showPoem()">Poetry for You 📜</button>
+          <button id="huggiesBtn" onclick="showHugs()">Huggies 🤗</button>
+        </div>
+        <p id="celebrationText">
+          In every step you take, remember that you are never alone; we stand
+          beside you, offering unwavering support and love, always here for you.
+        </p>
+      </div>
+      <div id="hugsGifContainer">
+        <iframe
+          src="https://giphy.com/embed/c6Wwc9cT05vMdhyTcM"
+          width="200"
+          height="200"
+          frameborder="0"
+          class="giphy-embed"
+          allowfullscreen
+        ></iframe>
+        <p>
+          <a href="https://giphy.com/gifs/cute-aww-wholesome-c6Wwc9cT05vMdhyTcM"
+            >via GIPHY</a
+          >
+        </p>
+      </div>
+
+      <!-- Background Audio -->
+      <audio id="backgroundAudio" autoplay loop>
+        <source src="your-audio-source.mp3" type="audio/mpeg" />
+        <!-- Replace with an audio file URL -->
+        Your browser does not support the audio tag.
+      </audio>
+    </div>
+
+    <!-- Modal for Poem -->
+    <div id="poemModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <p id="poemText"></p>
+      </div>
+    </div>
+
+    <script>
+      function hideAll() {
+        const defaultText = document.getElementById("defaultText");
+        const hugsGifContainer = document.getElementById("hugsGifContainer");
+        const poemModal = document.getElementById("poemModal");
+        const celebrationText = document.getElementById("celebrationText");
+
+        defaultText.style.display = "none";
+        hugsGifContainer.style.display = "none";
+        poemModal.style.display = "none"; // Hide modal if open
+        celebrationText.style.display = "none"; // Hide celebration text
+      }
+
+      function showStartingText() {
+        hideAll();
+        const defaultText = document.getElementById("defaultText");
+        defaultText.style.display = "block";
+      }
+
+      function celebrate() {
+        hideAll();
+        const celebrationText = document.getElementById("celebrationText");
+        celebrationText.style.display = "block"; // Show celebration text
+        createConfetti("💙"); // Blue heart confetti
+      }
+
+      function showPoem() {
+        hideAll(); // Hide all elements first
+        const poemText = `In the garden of life, today blooms a flower,
+          A radiant soul, shining brighter by the hour.
+          With laughter like sunshine, and kindness so true,
+          The world feels more vibrant, just because of you.
+
+          Each moment you cherish, each dream you embrace,
+          Leaves traces of joy, like a soft, warm embrace.
+          As candles flicker softly, and wishes take flight,
+          May this year bring you magic, and days warm and bright.
+
+          Dance in the rain, let your spirit be free,
+          With love all around you, as deep as the sea.
+          May your path be adorned with adventures anew,
+          And may every heartbeat sing blessings for you.
+
+          So here’s to the laughter, the joy, and the cheer,
+          To the moments of wonder that fill up your year.
+          Happy birthday, dear friend, may your dreams all come true,
+          For the world is much brighter, simply because of you.`;
+        document.getElementById("poemText").innerText = poemText; // Set poem text
+        document.getElementById("poemModal").style.display = "flex"; // Show modal
+        createConfetti("💜"); // Purple heart confetti
+      }
+
+      function showHugs() {
+        hideAll(); // Hide all elements first
+        const hugsGifContainer = document.getElementById("hugsGifContainer");
+        hugsGifContainer.style.display = "flex"; // Show hug GIF
+      }
+
+      function closeModal() {
+        document.getElementById("poemModal").style.display = "none"; // Close modal
+      }
+
+      function createConfetti(emoji) {
+        const numConfetti = 100;
+        const container = document.body; // You can change this to another container if needed
+
+        for (let i = 0; i < numConfetti; i++) {
+          const confetti = document.createElement("div");
+          confetti.textContent = emoji;
+          confetti.classList.add("heart");
+          confetti.style.position = "absolute";
+          confetti.style.left = Math.random() * 100 + "vw";
+          confetti.style.top = Math.random() * 100 + "vh";
+          confetti.style.fontSize = Math.random() * 30 + 10 + "px";
+          container.appendChild(confetti);
+
+          // Animation
+          confetti.animate(
+            [
+              { transform: "translateY(0)", opacity: 1 },
+              { transform: "translateY(100vh)", opacity: 0 },
+            ],
+            {
+              duration: Math.random() * 2000 + 2000,
+              easing: "linear",
+              fill: "forwards",
+            }
+          );
+
+          // Remove after animation
+          setTimeout(() => {
+            confetti.remove();
+          }, 3000);
+        }
+      }
+    </script>
+  </body>
+</html>
